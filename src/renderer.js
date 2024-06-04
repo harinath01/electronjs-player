@@ -1,6 +1,6 @@
 const shaka = require('shaka-player');
 
-var WIDEVINE_LICENSE_URL = 'https://app.tpstreams.com/api/v1/6eafqn/assets/8eaHZjXt6km/drm_license/?access_token=16b608ba-9979-45a0-94fb-b27c1a86b3c1'
+var WIDEVINE_LICENSE_URL = 'https://app.tpstreams.com/api/v1/6eafqn/assets/8eaHZjXt6km/drm_license/?access_token=16b608ba-9979-45a0-94fb-b27c1a86b3c1&download=true'
 MANIFEST_URL = 'https://d384padtbeqfgy.cloudfront.net/transcoded/8eaHZjXt6km/video.mpd';
 
 function setUp() { 
@@ -31,16 +31,13 @@ function setupPlayer() {
   player.configure({
     drm: {
       servers: {
-            'com.widevine.alpha': WIDEVINE_LICENSE_URL,
-          'org.w3.clearkey': "https//test.com"
+        'com.widevine.alpha': WIDEVINE_LICENSE_URL
       },
     },
   });
 
   player.getNetworkingEngine().registerRequestFilter(function (type, request) {
     if (type == shaka.net.NetworkingEngine.RequestType.LICENSE) {
-        console.log("Player license interceptor")
-        console.log(request.uris)
       request.headers['Content-type'] = 'application/octet-stream';
     }
   });
@@ -57,6 +54,17 @@ async function load() {
     // shakaOnError is executed if the asynchronous load fails.
     onError(exception);
   }
+}
+
+const setUpOfflineDownload = function () {
+  initStorage();
+
+  const downloadButton = document.getElementById('download-button');
+  downloadButton.onclick = onDownloadClick;
+
+  // Update the content list to show what items we initially have
+  // stored offline.
+  refreshContentList();
 }
 
 function onErrorEvent(event) {
@@ -91,7 +99,7 @@ function onDownloadClick() {
   
     // Download the content and then re-enable the download button so
     // that more content can be downloaded.
-    downloadContent(window.manifestURL, "Big bunny buck")
+    downloadContent(MANIFEST_URL, "Big bunny buck")
       .then(function () {
         return refreshContentList();
       })
@@ -114,7 +122,7 @@ function initStorage() {
     window.storage = new shaka.offline.Storage();
     window.storage.configure({
         offline: {
-            usePersistentLicense: true,
+            usePersistentLicense: false,
             progressCallback: setDownloadProgress,
             trackSelectionCallback: selectTracks,
         },
@@ -257,3 +265,11 @@ function createButton(text, action) {
   button.onclick = action;
   return button;
 }
+
+
+
+document.addEventListener('DOMContentLoaded', function () {
+  setUp();
+  load();
+  setUpOfflineDownload()
+});
