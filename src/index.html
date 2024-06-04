@@ -6,7 +6,20 @@
     <link rel="stylesheet" href="index.css" />
   </head>
   <body>
-    <h1>💖 Hello World!</h1>
-    <p>Welcome to your Electron application.</p>
+    <div class="container">
+      <h2>TPSTREAMS DRM</h2>
+      <div id='online-signal' style='width:100%;text-align:center'></div>
+      <div class="media">
+        <video id="video" controls autoplay muted></video>
+      </div>
+      
+      <div>
+        <span><progress id="progress-bar" value="0" max="100"></span>
+        <span><button id="download-button" onclick="load()">Download</button></span>
+      </div>
+      <table id="content-table" style="width:100%"></table>
+    </div>
+
+    <script src="./renderer.js"></script>
   </body>
 </html>
