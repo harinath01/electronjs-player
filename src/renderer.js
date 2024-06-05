@@ -122,7 +122,7 @@ function initStorage() {
     window.storage = new shaka.offline.Storage();
     window.storage.configure({
         offline: {
-            usePersistentLicense: false,
+            usePersistentLicense: true,
             progressCallback: setDownloadProgress,
             trackSelectionCallback: selectTracks,
         },
