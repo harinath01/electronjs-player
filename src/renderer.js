@@ -1,10 +1,9 @@
 const shaka = require('shaka-player');
 
-var WIDEVINE_LICENSE_URL = 'https://app.tpstreams.com/api/v1/6eafqn/assets/8eaHZjXt6km/drm_license/?access_token=16b608ba-9979-45a0-94fb-b27c1a86b3c1&download=true'
+var WIDEVINE_LICENSE_URL = 'https://app.tpstreams.com/api/v1/6eafqn/assets/8eaHZjXt6km/drm_license/?access_token=16b608ba-9979-45a0-94fb-b27c1a86b3c1'
 MANIFEST_URL = 'https://d384padtbeqfgy.cloudfront.net/transcoded/8eaHZjXt6km/video.mpd';
 
 function setUp() { 
-    
   // Check to see if the browser supports the basic APIs Shaka needs.
   if (shaka.Player.isBrowserSupported()) {
     setupPlayer();
