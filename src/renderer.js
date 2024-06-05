@@ -270,6 +270,10 @@ function createButton(text, action) {
 
 document.addEventListener('DOMContentLoaded', function () {
   setUp();
-  load();
+  if (!navigator.onLine){
+    window.addEventListener('online',  load);
+  } else {
+    load()
+  }
   setUpOfflineDownload()
 });
