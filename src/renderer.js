@@ -1,7 +1,7 @@
 const shaka = require('shaka-player');
 
-var WIDEVINE_LICENSE_URL = 'https://app.tpstreams.com/api/v1/6eafqn/assets/8eaHZjXt6km/drm_license/?access_token=16b608ba-9979-45a0-94fb-b27c1a86b3c1&download=true'
-MANIFEST_URL = 'https://d384padtbeqfgy.cloudfront.net/transcoded/8eaHZjXt6km/video.mpd';
+var WIDEVINE_LICENSE_URL = 'http://127.0.0.1:8000/api/v1/k6gdyc/assets/8dbGHhBEyCT/drm_license/?access_token=372a0c55-c1e1-45a2-9906-1820d6ea57b7&drm_type=widevine&download=true'
+MANIFEST_URL = 'https://d2aozw2qj8vdwc.cloudfront.net/transcoded/8dbGHhBEyCT/video.mpd';
 
 function setUp() { 
     
@@ -122,7 +122,7 @@ function initStorage() {
     window.storage = new shaka.offline.Storage();
     window.storage.configure({
         offline: {
-            usePersistentLicense: false,
+            usePersistentLicense: true,
             progressCallback: setDownloadProgress,
             trackSelectionCallback: selectTracks,
         },
