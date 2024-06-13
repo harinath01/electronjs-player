@@ -1,17 +1,17 @@
 # Integration Guide: Shaka Player with Electron.js
 
 
-### Introduction
+## Introduction
 
 This sample repository demonstrates integrating the Shaka Player with Electron.js to enable Widevine playback and offline download support.
 
 
-### Minimum npm Version Requirement
+## Minimum npm Version Requirement
 
 Ensure your development environment meets the minimum npm version requirement of 16 for proper package management and dependency resolution.
 
 
-### Using CastLabs Forked Version
+## Using CastLabs Forked Version
 
 To enable Widevine support and persistent license storage necessary for offline playback of Widevine-encrypted video, follow these steps:
 
