@@ -27,13 +27,6 @@ function setupPlayer() {
   // Listen for errors.
   player.addEventListener('error', onErrorEvent);
 
-  player.configure({
-    drm: {
-      servers: {
-        'com.widevine.alpha': WIDEVINE_LICENSE_URL
-      },
-    },
-  });
 
   player.getNetworkingEngine().registerRequestFilter(function (type, request) {
     if (type == shaka.net.NetworkingEngine.RequestType.LICENSE) {
@@ -46,8 +39,14 @@ async function load() {
   // Try to load a manifest.
   // This is an asynchronous process.
   try {
+    player.configure({
+      drm: {
+        servers: {
+          'com.widevine.alpha': WIDEVINE_LICENSE_URL
+        },
+      },
+    });
     await window.player.load(MANIFEST_URL);
-    // This runs if the asynchronous load is successful.
     console.log('The video has now been loaded!');
   } catch (exception) {
     // shakaOnError is executed if the asynchronous load fails.
