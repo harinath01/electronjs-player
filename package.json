@@ -1,6 +1,6 @@
 {
-  "name": "electronjs-player",
-  "productName": "electronjs-player",
+  "name": "tpstreams",
+  "productName": "TpStreams",
   "version": "1.0.0",
   "description": "My Electron application description",
   "main": "src/index.js",
@@ -21,6 +21,7 @@
     "@electron-forge/plugin-fuses": "^7.4.0",
     "@electron/fuses": "^1.8.0",
     "electron": "github:castlabs/electron-releases#v30.0.9+wvcus",
+    "electron-winstaller": "^5.4.0",
     "nodemon": "^3.1.2"
   },
   "keywords": [],
