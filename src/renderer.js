@@ -148,24 +148,52 @@ function setDownloadProgress(content, progress) {
 }
 
 function selectTracks(tracks) {
-  // This example stores the highest bandwidth variant.
-  //
-  // Note that this is just an example of an arbitrary algorithm, and not a best
-  // practice for storing content offline.  Decide what your app needs, or keep
-  // the default (user-pref-matching audio, best SD video, all text).
-  console.log(tracks);
-  const found = tracks
+  // Filter to get only video variants and sort by bandwidth
+  const variants = tracks
     .filter(function (track) {
       return track.type == "variant";
     })
-    .sort(function (a, b) {
-      return a.bandwidth - b.bandwidth;
-    })
-    .pop();
-  console.log(found);
 
-  console.log("Offline Track bandwidth: " + found.bandwidth);
-  return [found];
+  // Get unique resolutions, selecting highest bitrate for each
+  const uniqueResolutions = {};
+  variants.forEach(track => {
+    if (!uniqueResolutions[track.height] || track.bandwidth > uniqueResolutions[track.height].bandwidth) {
+      uniqueResolutions[track.height] = track;
+    }
+  });
+
+  // Convert to array and sort by resolution
+  const uniqueVariants = Object.values(uniqueResolutions).sort((a, b) => a.height - b.height);
+
+  // Create a dialog element
+  const dialog = document.createElement('dialog');
+  dialog.innerHTML = `
+    <form method="dialog">
+      <h3>Select Video Quality</h3>
+      <select id="quality-select">
+        ${uniqueVariants.map((track, index) => {
+          const mbps = (track.bandwidth / 1024 / 1024).toFixed(2);
+          return `<option value="${index}">${track.height}p (${mbps} Mbps)</option>`;
+        }).join('')}
+      </select>
+      <button type="submit">OK</button>
+    </form>
+  `;
+
+  // Add dialog to document and show it
+  document.body.appendChild(dialog);
+  dialog.showModal();
+
+  return new Promise((resolve) => {
+    dialog.addEventListener('close', () => {
+      const select = dialog.querySelector('#quality-select');
+      const index = parseInt(select.value);
+      const selected = uniqueVariants[index];
+      console.log(`Selected quality: ${selected.height}p at ${selected.bandwidth} bps`);
+      document.body.removeChild(dialog);
+      resolve([selected]);
+    });
+  });
 }
 
 function listContent() {
