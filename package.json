@@ -31,7 +31,7 @@
     "make": "electron-forge make",
     "publish": "electron-forge publish",
     "lint": "echo \"No linting configured\"",
-    "build-win": "electron-builder --win",
+    "build-win": "electron-builder build --win --publish never --x64",
     "build-mac": "electron-builder --mac"
   },
   "devDependencies": {
@@ -55,6 +55,8 @@
   "license": "MIT",
   "dependencies": {
     "electron-squirrel-startup": "^1.0.1",
+    "getmac": "^6.6.0",
+    "node-machine-id": "^1.1.12",
     "shaka-player": "^4.9.0"
   }
 }
